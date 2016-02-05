@@ -33,18 +33,18 @@ run when the server restarts.
 
 And the contents:
 
-description "Gunicorn application server running flask-lister"
+    description "Gunicorn application server running flask-lister"
 
-start on runlevel [2345]
-stop on runlevel [!2345]
+    start on runlevel [2345]
+    stop on runlevel [!2345]
 
-respawn
-setuid you
-setgid www-data
+    respawn
+    setuid you
+    setgid www-data
 
-env PATH=/var/www/files.example.com/.venv/bin
-chdir /var/www/files.example.com
-exec gunicorn --workers 3 --bind unix:flask-lister.sock -m 007 wsgi
+    env PATH=/var/www/files.example.com/.venv/bin
+    chdir /var/www/files.example.com
+    exec gunicorn --workers 3 --bind unix:flask-lister.sock -m 007 wsgi
 
 Finally, we just need to create the nginx configuration, I like creating them
 as `.conf` files-- but if you prefer the `sites-available` / `sites-enabled`
@@ -54,15 +54,15 @@ process, go for it.
 
 And the contents:
 
-server {
-    listen 80;
-    server_name files.example.com;
+    server {
+        listen 80;
+        server_name files.example.com;
 
-    location / {
-        include proxy_params;
-        proxy_pass http://unix:/var/www/files.example.com/flask-lister.sock;
+        location / {
+            include proxy_params;
+            proxy_pass http://unix:/var/www/files.example.com/flask-lister.sock;
+        }
     }
-}
 
 Lets now just fire up the wsgi app:  `sudo service lister start` and restart nginx
 to pay attention to the new setup: `sudo service nginx restart`.
