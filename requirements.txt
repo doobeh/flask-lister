@@ -1,0 +1,5 @@
+flask
+flask-autoindex
+flask-script
+flask-basicauth
+gunicorn
