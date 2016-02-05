@@ -120,8 +120,11 @@ With the new contents:
 
 
 All we're essentially doing is saying if someone tries to access the domain on the
-unsecured port then redirect them over to the `https://` connection.
+unsecured port then redirect them over to the `https://` connection.  Lets restart
+nginx so it can read in the new configuration:
+
+    sudo service nginx restart
 
 Let's Encrypt's certificates last for three months— so just remember to rerun the
 command when you get close to that date. You'll need to restart nginx when you get
-the new certificate (`sudo service nginx restart`).
+the new certificate.
